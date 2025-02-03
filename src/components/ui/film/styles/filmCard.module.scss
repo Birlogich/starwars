@@ -1,0 +1,26 @@
+.card {
+   @apply flex items-center my-5 rounded-[10px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.4)] bg-[rgba(0,0,0,0.6)] w-[clamp(85%,_40vw,_589px)];
+
+   &:hover {
+      @apply bg-[rgba(0,0,0,0.8)] transition-colors duration-300;
+   }
+}
+
+.imageWrapper {
+   @apply relative w-[254px] h-[290px];
+   & > img {
+      @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+   }
+}
+
+.infoWrapper {
+   @apply flex flex-col items-center justify-center text-center w-1/2;
+
+   & > p {
+      @apply text-2xl font-bold leading-[35px] tracking-normal text-center uppercase;
+   }
+
+   & > p:first-child {
+      @apply mb-4;
+   }
+}

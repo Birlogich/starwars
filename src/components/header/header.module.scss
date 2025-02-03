@@ -1,0 +1,17 @@
+.top {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   & > div {
+      width: 4rem;
+      height: 1px;
+      border: 1px solid var(--primary);
+
+      &:first-child {
+         margin-bottom: 10px;
+      }
+      &:last-child {
+         margin-top: 10px;
+      }
+   }
+}

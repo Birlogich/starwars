@@ -1,0 +1,27 @@
+@import "./index.css";
+
+.app {
+  @apply flex w-full flex-col justify-center items-center;
+}
+
+.container {
+  @apply px-1 h-full flex flex-col items-center relative;
+  max-width: 1150px;
+}
+
+.wrapper {
+  @apply flex w-full flex-col items-center bg-cover overflow-x-scroll;
+  height: 100vh;
+  padding-top: 1rem;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.wrapper {
+  scrollbar-width: none;
+}
+
+.wrapper::-webkit-scrollbar {
+  display: none;
+}

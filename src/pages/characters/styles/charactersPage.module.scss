@@ -1,0 +1,11 @@
+.wrapper {
+   @apply flex flex-col items-center justify-center w-full h-full;
+}
+
+.swiper {
+   @apply w-full;
+}
+
+.slide {
+   @apply flex;
+}
