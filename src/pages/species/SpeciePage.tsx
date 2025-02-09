@@ -1,9 +1,10 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 import { fetchSpecie } from "../../features/Species/speciesSlice";
+import EntityPage from "../../components/entityPage/EntityPage";
 
 const SpeciePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,57 +32,19 @@ const SpeciePage = () => {
       )}
       {status === "error" && <h2>{error}</h2>}
       {status === "completed" && (
-        <div className={styles.mainBlock}>
-          <div className={styles.title}>
-            <h2>{specie?.name}</h2>
-          </div>
-          <div className={styles.info}>
-            <div>
-              <div className={styles.block}>
-                <h2>Average Height:</h2>
-                <p>{specie?.average_height}</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Average Life Span:</h2>
-                <p>{specie?.average_lifespan}</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Classification:</h2>
-                <p>{specie?.classification}</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Language:</h2>
-                <p>{specie?.language}</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Skin Colors:</h2>
-                <p>{specie?.skin_colors}</p>
-              </div>
-            </div>
-          </div>
-          <div className={styles.block}>
-            <h2>Films:</h2>
-            <div className={styles.blockWrapper}>
-              {specie?.films &&
-                specie?.films.map((specie, idx) => (
-                  <Link to={specie.url} key={idx}>
-                    {specie.title}
-                  </Link>
-                ))}
-            </div>
-          </div>
-          <div className={styles.block}>
-            <h2>People:</h2>
-            <div className={styles.blockWrapper}>
-              {specie?.people &&
-                specie?.people.map((specie, idx) => (
-                  <Link to={specie.url} key={idx}>
-                    {specie.name}
-                  </Link>
-                ))}
-            </div>
-          </div>
-        </div>
+        <EntityPage
+          entity={specie}
+          titleKey="name"
+          fields={[
+            { label: "Average Height", key: "average_height" },
+            { label: "Average Life Span", key: "average_lifespan" },
+            { label: "Classification", key: "classification" },
+            { label: "Language", key: "language" },
+            { label: "Skin Colors", key: "skin_colors" },
+            { label: "Films", key: "films", isLink: true },
+            { label: "People", key: "people", isLink: true },
+          ]}
+        />
       )}
     </div>
   );

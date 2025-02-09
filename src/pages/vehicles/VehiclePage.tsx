@@ -1,9 +1,10 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 import { fetchVehicle } from "../../features/Vehicles/vehiclesSlice";
+import EntityPage from "../../components/entityPage/EntityPage";
 
 const VehiclePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,58 +32,20 @@ const VehiclePage = () => {
       )}
       {status === "error" && <h2>{error}</h2>}
       {status === "completed" && (
-        <div className={styles.mainBlock}>
-          <div className={styles.title}>
-            <h2>{vehicle?.name}</h2>
-          </div>
-          <div className={styles.info}>
-            <div>
-              <div className={styles.block}>
-                <h2>Manufacturer:</h2>
-                <p>{vehicle?.manufacturer}</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Crew:</h2>
-                <p>{vehicle?.crew} people</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Passengers:</h2>
-                <p>{vehicle?.passengers} people</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Length:</h2>
-                <p>{vehicle?.length}</p>
-              </div>
-              <div className={styles.block}>
-                <h2>Max atmosphering speed:</h2>
-                <p>{vehicle?.max_atmosphering_speed}</p>
-              </div>
-            </div>
-          </div>
-          <div className={styles.block}>
-            <h2>Films:</h2>
-            <div className={styles.blockWrapper}>
-              {vehicle?.films &&
-                vehicle?.films.map((vehicle, idx) => (
-                  <Link to={vehicle.url} key={idx}>
-                    {vehicle.title}
-                  </Link>
-                ))}
-            </div>
-          </div>
-          <div className={styles.block}>
-            <h2>Pilots:</h2>
-            <div className={styles.blockWrapper}>
-              {vehicle?.pilots.length
-                ? vehicle?.pilots.map((vehicle, idx) => (
-                    <Link to={vehicle.url} key={idx}>
-                      {vehicle.name}
-                    </Link>
-                  ))
-                : "N/A"}
-            </div>
-          </div>
-        </div>
+        <EntityPage
+          entity={vehicle}
+          titleKey="name"
+          fields={[
+            { label: "Model", key: "model" },
+            { label: "Manufacturer", key: "manufacturer" },
+            { label: "Crew", key: "crew" },
+            { label: "Passengers", key: "passengers" },
+            { label: "Length Rating", key: "length" },
+            { label: "Max atmosphering speed", key: "max_atmosphering_speed" },
+            { label: "Films", key: "films", isLink: true },
+            { label: "Pilots", key: "pilots", isLink: true },
+          ]}
+        />
       )}
     </div>
   );
