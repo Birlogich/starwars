@@ -49,7 +49,7 @@ const CharactersPage = () => {
       <div className={styles.pagination}>
         {[...Array(totalPages)].map((_, index) => (
           <button
-            className={`${styles.paginationButton} ${currentPage === index + 1 ? "active" : ""}`}
+            className={`${styles.paginationButton} ${currentPage === index + 1 ? styles.active : ""}`}
             key={index}
             onClick={() => handlePageChange(index + 1)}
             disabled={currentPage === index + 1}
