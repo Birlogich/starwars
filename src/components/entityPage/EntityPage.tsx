@@ -11,7 +11,7 @@ const EntityPage = <T,>({ entity, titleKey, fields }: EntityProps<T>) => {
   if (!entity) return null;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.entitywrapper}>
       <div className={styles.mainBlock}>
         <div className={styles.title}>
           <h2>{String(entity[titleKey])}</h2>
@@ -25,7 +25,7 @@ const EntityPage = <T,>({ entity, titleKey, fields }: EntityProps<T>) => {
                   entity[key].length > 0 ? (
                     entity[key].map((item: any, idx: number) => (
                       <Link to={item.url} key={idx}>
-                        {item.name}
+                        {item.name || item.title}
                       </Link>
                     ))
                   ) : (
@@ -37,7 +37,7 @@ const EntityPage = <T,>({ entity, titleKey, fields }: EntityProps<T>) => {
                   </Link>
                 )
               ) : (
-                <p>{String(entity[key] || "N/A")}</p>
+                <p>{String(entity[key] === "n/a" ? "N/A" : entity[key])}</p>
               )}
             </div>
           ))}

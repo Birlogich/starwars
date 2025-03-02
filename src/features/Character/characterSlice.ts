@@ -7,13 +7,21 @@ import { fetchResourceName } from "../../lib/helpers/fetchResourseName";
 type Status = 'idle' | 'loading' | 'completed' | 'error';
 
 
-export const fetchAllCharacters = createAsyncThunk(
-   '@@films/fetchAllCharacters',
-   async () => {
-      const data = await client<{ results: CharacterType[] }>("people"); 
-      return data?.results ?? [];
-     }
-)
+export const fetchAllCharacters = createAsyncThunk<{ count: number; results: CharacterType[] }, 
+  string
+>(
+  '@@films/fetchAllCharacters',
+  async (page: string) => {
+    const data = await client<{ count: number; results: CharacterType[] }>(
+      page ? `people/?page=${page}` : `people/?page=1`
+    );
+
+    return {
+      count: data?.count ?? 0, 
+      results: data?.results ?? [],
+    };
+  }
+);
 
 export const fetchCharacter = createAsyncThunk<LocalCharacterType | null, string, { rejectValue: string }>(
   '@@films/fetchCharacter',
@@ -78,6 +86,8 @@ export const fetchCharacter = createAsyncThunk<LocalCharacterType | null, string
 type characterSlice = {
    status: Status;
    list: CharacterType[] | undefined;
+   count: number,
+   currentPage: number,
    selectedCharacter: LocalCharacterType | null;
    selectedStatus: Status;
    error: string | null
@@ -86,6 +96,8 @@ type characterSlice = {
 const initialState: characterSlice = {
    status: "idle",
    list: [],
+   count: 0,
+   currentPage: 1,
    selectedCharacter: null,
    selectedStatus: "idle",
    error: null
@@ -94,7 +106,11 @@ const initialState: characterSlice = {
  const characterSlice = createSlice({
    name: "@films",
    initialState,
-   reducers: {},
+   reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
    extraReducers: (builder) => {
      builder
        .addCase(fetchAllCharacters.pending, (state) => {
@@ -105,7 +121,8 @@ const initialState: characterSlice = {
        })
        .addCase(fetchAllCharacters.fulfilled, (state, action) => {
          state.status = "completed";
-         state.list = action.payload;
+         state.list = action.payload.results;
+         state.count = action.payload.count;
        })
 
        // One Charecter 
@@ -124,4 +141,5 @@ const initialState: characterSlice = {
    },
  });
  
+ export const { setPage } = characterSlice.actions;
  export const charactersSliceReducer = characterSlice.reducer;

@@ -3,7 +3,7 @@ import { PlanetType } from "../../types/index";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 
-import styles from "./styles/planetsPage.module.scss";
+import styles from "../commonStyles/pageWrapper.module.scss";
 import { fetchAllPlanets } from "../../features/Plantet/planetsSlice";
 import PlanetCard from "../../components/ui/planet/PlanetCard";
 
@@ -20,7 +20,7 @@ const PlanetsPage = () => {
   //Позже добавлю пагинацию
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.pageWrapper}>
       {status === "loading" && (
         <Circles
           height="80"

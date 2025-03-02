@@ -1,0 +1,34 @@
+.pageWrapper {
+   @apply flex flex-col items-center justify-center w-full h-full py-16 mt-4;
+}
+
+.list {
+   @apply flex flex-col items-center justify-center w-full h-full mb-10;
+}
+
+.pagination {
+   width: clamp(85%, 40vw, 589px);
+   @apply flex justify-around;
+}
+
+.paginationButton {
+   width: 2rem;
+   height: 2rem;
+   aspect-ratio: 1;
+   border-radius: 50%;
+   background-color: rgba(0, 0, 0, 0.6);
+   color: white;
+   border: 2px solid transparent;
+   cursor: pointer;
+   transition:
+      background 0.3s,
+      border 0.3s;
+}
+
+.paginationButton:hover {
+   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.paginationButton.active {
+   border-color: white;
+}

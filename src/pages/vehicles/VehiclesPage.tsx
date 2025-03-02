@@ -3,7 +3,7 @@ import { VehicleType } from "../../types/index";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 
-import styles from "./styles/vehiclesPage.module.scss";
+import styles from "../commonStyles/pageWrapper.module.scss";
 import VehicleCard from "../../components/ui/vehicle/VehicleCard";
 import { fetchAllVehicles } from "../../features/Vehicles/vehiclesSlice";
 
@@ -20,7 +20,7 @@ const VehiclesPage = () => {
   //Позже добавлю пагинацию
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.pageWrapper}>
       {status === "loading" && (
         <Circles
           height="80"
