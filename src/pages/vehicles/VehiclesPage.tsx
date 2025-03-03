@@ -4,20 +4,29 @@ import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 
 import styles from "../commonStyles/pageWrapper.module.scss";
-import VehicleCard from "../../components/ui/vehicle/VehicleCard";
-import { fetchAllVehicles } from "../../features/Vehicles/vehiclesSlice";
+import {
+  fetchAllVehicles,
+  setPage,
+} from "../../features/Vehicles/vehiclesSlice";
+import Pagination from "../../components/ui/pagination/Pagination";
+import EntityCard from "../../components/ui/entityCard/EntityCard";
 
 const VehiclesPage = () => {
   const dispatch = useAppDispatch();
-
+  const currentPage = useAppSelector((state) => state.vehicles.currentPage);
   const vehicles = useAppSelector((state) => state.vehicles.list);
   const status = useAppSelector((state) => state.vehicles.status);
+  const totalPages = useAppSelector((state) =>
+    Math.ceil(state.vehicles.count / 10)
+  );
 
   useEffect(() => {
-    dispatch(fetchAllVehicles());
-  }, []);
+    dispatch(fetchAllVehicles(String(currentPage)));
+  }, [currentPage, dispatch]);
 
-  //Позже добавлю пагинацию
+  const handlePageChange = (page: number) => {
+    dispatch(setPage(page));
+  };
 
   return (
     <div className={styles.pageWrapper}>
@@ -32,10 +41,22 @@ const VehiclesPage = () => {
           visible={true}
         />
       )}
-      {status === "completed" &&
-        vehicles?.map((vehicle: VehicleType) => (
-          <VehicleCard {...vehicle} key={vehicle.name} />
-        ))}
+      {status === "completed" && (
+        <>
+          {vehicles?.map((vehicle: VehicleType) => (
+            <EntityCard
+              entity={vehicle}
+              basePath="planets"
+              key={vehicle.name}
+            />
+          ))}
+          <Pagination
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        </>
+      )}
     </div>
   );
 };

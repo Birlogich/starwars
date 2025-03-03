@@ -5,11 +5,19 @@ import { fetchResourceName } from "../../lib/helpers/fetchResourseName";
 
 type Status = 'idle' | 'loading' | 'completed' | 'error' | string;
 
-export const fetchAllPlanets = createAsyncThunk(
+export const fetchAllPlanets = createAsyncThunk<{ count: number; results: PlanetType[] }, 
+  string
+>(
    '@@films/fetchAllPlanets',
-   async () => {
-      const data = await client<{ results: PlanetType[] }>("planets"); 
-      return data?.results ?? [];
+   async (page: string) => {
+       const data = await client<{ count: number; results: PlanetType[] }>(
+         page ? `planets/?page=${page}` : `planets/?page=1`
+       );
+   
+       return {
+         count: data?.count ?? 0, 
+         results: data?.results ?? [],
+       };
      }
 )
 
@@ -52,6 +60,8 @@ export const fetchPlanet = createAsyncThunk<LocalPlanetType | null, string, { re
 type PlanetSlice = {
    status: Status;
    list: PlanetType[] | undefined;
+   count: number,
+   currentPage: number,
    selectedPlanet: LocalPlanetType | null;
    selectedStatus: Status;
    error: string | null,
@@ -60,6 +70,8 @@ type PlanetSlice = {
 const initialState: PlanetSlice = {
    status: "idle",
    list: [],
+   count: 0,
+   currentPage: 1,
    selectedPlanet: null,
    selectedStatus: "idle",
    error: null
@@ -68,7 +80,11 @@ const initialState: PlanetSlice = {
  const planetSlice = createSlice({
    name: "@films",
    initialState,
-   reducers: {},
+   reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+   },
    extraReducers: (builder) => {
      builder
        .addCase(fetchAllPlanets.pending, (state) => {
@@ -79,7 +95,8 @@ const initialState: PlanetSlice = {
        })
        .addCase(fetchAllPlanets.fulfilled, (state, action) => {
          state.status = "completed";
-         state.list = action.payload;
+         state.list = action.payload.results;
+         state.count = action.payload.count;
        })
 
        // One Charecter 
@@ -98,4 +115,5 @@ const initialState: PlanetSlice = {
    },
  });
  
+  export const { setPage } = planetSlice.actions;
  export const planetsSliceReducer = planetSlice.reducer;

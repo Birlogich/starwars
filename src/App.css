@@ -22,6 +22,14 @@
   scrollbar-width: none;
 }
 
-.wrapper::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+body {
+  -ms-overflow-style: none;
 }

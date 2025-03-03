@@ -5,12 +5,20 @@ import { fetchResourceName } from "../../lib/helpers/fetchResourseName";
 
 type Status = 'idle' | 'loading' | 'completed' | 'error';
 
-export const fetchAllStarships = createAsyncThunk(
+export const fetchAllStarships = createAsyncThunk<{ count: number; results: StarshipType[] }, 
+  string
+>(
    '@@films/fetchAllStarships',
-   async () => {
-      const data = await client<{ results: StarshipType[] }>("starships"); 
-      return data?.results ?? [];
-     }
+    async (page: string) => {
+            const data = await client<{ count: number; results: StarshipType[] }>(
+              page ? `planets/?page=${page}` : `planets/?page=1`
+            );
+        
+            return {
+              count: data?.count ?? 0, 
+              results: data?.results ?? [],
+            };
+          }
 )
 
 export const fetchStarship = createAsyncThunk<LocalStarshipType | null, string, { rejectValue: string }>(
@@ -51,6 +59,8 @@ export const fetchStarship = createAsyncThunk<LocalStarshipType | null, string, 
 type PlanetSlice = {
    status: Status;
    list: StarshipType[] | undefined;
+   count: number,
+   currentPage: number,
    selectedStarship: LocalStarshipType | null;
    selectedStatus: Status;
    error: string | null
@@ -59,6 +69,8 @@ type PlanetSlice = {
 const initialState: PlanetSlice = {
    status: "idle",
    list: [],
+   count: 0,
+   currentPage: 1,
    selectedStarship: null,
    selectedStatus: "idle",
    error: null
@@ -67,7 +79,11 @@ const initialState: PlanetSlice = {
  const starshipSlice = createSlice({
    name: "@films",
    initialState,
-   reducers: {},
+   reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+   },
    extraReducers: (builder) => {
      builder
        .addCase(fetchAllStarships.pending, (state) => {
@@ -78,7 +94,8 @@ const initialState: PlanetSlice = {
        })
        .addCase(fetchAllStarships.fulfilled, (state, action) => {
          state.status = "completed";
-         state.list = action.payload;
+         state.list = action.payload.results;
+         state.count = action.payload.count;
        })
 
        // One Charecter 
@@ -96,5 +113,7 @@ const initialState: PlanetSlice = {
        });
    },
  });
- 
+
+
+export const { setPage } = starshipSlice.actions;
  export const starshipsSliceReducer = starshipSlice.reducer;

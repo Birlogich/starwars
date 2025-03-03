@@ -5,12 +5,20 @@ import { fetchResourceName } from "../../lib/helpers/fetchResourseName";
 
 type Status = 'idle' | 'loading' | 'completed' | 'error';
 
-export const fetchAllVehicles = createAsyncThunk(
+export const fetchAllVehicles = createAsyncThunk<{ count: number; results: VehicleType[] }, 
+  string
+>(
    '@@films/fetchAllVehicles',
-   async () => {
-      const data = await client<{ results: VehicleType[] }>("vehicles"); 
-      return data?.results ?? [];
-     }
+  async (page: string) => {
+              const data = await client<{ count: number; results: VehicleType[] }>(
+                page ? `planets/?page=${page}` : `planets/?page=1`
+              );
+          
+              return {
+                count: data?.count ?? 0, 
+                results: data?.results ?? [],
+              };
+            }
 )
 
 export const fetchVehicle = createAsyncThunk<LocalVehicleType | null, string, { rejectValue: string }>(
@@ -51,6 +59,8 @@ export const fetchVehicle = createAsyncThunk<LocalVehicleType | null, string, { 
 type PlanetSlice = {
    status: Status;
    list: VehicleType[] | undefined;
+   count: number,
+   currentPage: number,
    selectedVehicle: LocalVehicleType | null;
    selectedStatus: Status;
    error: string | null;
@@ -59,6 +69,8 @@ type PlanetSlice = {
 const initialState: PlanetSlice = {
    status: "idle",
    list: [],
+   count: 0,
+   currentPage: 1,
    selectedVehicle: null,
    selectedStatus: "idle",
    error: null,
@@ -67,7 +79,9 @@ const initialState: PlanetSlice = {
  const vehicleSlice = createSlice({
    name: "@films",
    initialState,
-   reducers: {},
+   reducers: {setPage: (state, action) => {
+    state.currentPage = action.payload;
+  },},
    extraReducers: (builder) => {
      builder
        .addCase(fetchAllVehicles.pending, (state) => {
@@ -78,7 +92,8 @@ const initialState: PlanetSlice = {
        })
        .addCase(fetchAllVehicles.fulfilled, (state, action) => {
          state.status = "completed";
-         state.list = action.payload;
+         state.list = action.payload.results;
+         state.count = action.payload.count;
        })
 
        // One Charecter 
@@ -95,6 +110,7 @@ const initialState: PlanetSlice = {
          state.selectedVehicle = action.payload;
        });
    },
+
  });
- 
+ export const { setPage } = vehicleSlice.actions;
  export const vehiclesSliceReducer = vehicleSlice.reducer;

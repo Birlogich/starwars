@@ -5,12 +5,20 @@ import { fetchResourceName } from "../../lib/helpers/fetchResourseName";
 
 type Status = 'idle' | 'loading' | 'completed' | 'error';
 
-export const fetchAllSpecies = createAsyncThunk(
+export const fetchAllSpecies = createAsyncThunk<{ count: number; results: SpecieType[] }, 
+  string
+>(
    '@@films/fetchAllSpecies',
-   async () => {
-      const data = await client<{ results: SpecieType[] }>("species"); 
-      return data?.results ?? [];
-     }
+  async (page: string) => {
+         const data = await client<{ count: number; results: SpecieType[] }>(
+           page ? `planets/?page=${page}` : `planets/?page=1`
+         );
+     
+         return {
+           count: data?.count ?? 0, 
+           results: data?.results ?? [],
+         };
+       }
 )
 
 export const fetchSpecie = createAsyncThunk<LocalSpecieType | null, string, { rejectValue: string }>(
@@ -52,6 +60,8 @@ export const fetchSpecie = createAsyncThunk<LocalSpecieType | null, string, { re
 type PlanetSlice = {
    status: Status;
    list: SpecieType[] | undefined;
+   count: number,
+   currentPage: number,
    selectedSpecie: LocalSpecieType | null;
    selectedStatus: Status;
    error: string | null
@@ -60,6 +70,8 @@ type PlanetSlice = {
 const initialState: PlanetSlice = {
    status: "idle",
    list: [],
+   count: 0,
+   currentPage: 1,
    selectedSpecie: null,
    selectedStatus: "idle",
    error: null
@@ -68,7 +80,11 @@ const initialState: PlanetSlice = {
  const specieSlice = createSlice({
    name: "@films",
    initialState,
-   reducers: {},
+   reducers: { 
+    setPage: (state, action) => {
+    state.currentPage = action.payload;
+  },
+},
    extraReducers: (builder) => {
      builder
        .addCase(fetchAllSpecies.pending, (state) => {
@@ -79,10 +95,11 @@ const initialState: PlanetSlice = {
        })
        .addCase(fetchAllSpecies.fulfilled, (state, action) => {
          state.status = "completed";
-         state.list = action.payload;
+         state.list = action.payload.results;
+         state.count = action.payload.count;
        })
 
-       // One Charecter 
+       // One Character 
 
        .addCase(fetchSpecie.pending, (state) => {
          state.selectedStatus = "loading";
@@ -97,5 +114,6 @@ const initialState: PlanetSlice = {
        });
    },
  });
- 
+
+ export const { setPage } = specieSlice.actions;
  export const speciesSliceReducer = specieSlice.reducer;

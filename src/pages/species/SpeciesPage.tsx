@@ -4,20 +4,26 @@ import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 
 import styles from "../commonStyles/pageWrapper.module.scss";
-import { fetchAllSpecies } from "../../features/Species/speciesSlice";
-import SpecieCard from "../../components/ui/specie/SpecieCard";
+import { fetchAllSpecies, setPage } from "../../features/Species/speciesSlice";
+import EntityCard from "../../components/ui/entityCard/EntityCard";
+import Pagination from "../../components/ui/pagination/Pagination";
 
 const SpeciesPage = () => {
   const dispatch = useAppDispatch();
-
+  const currentPage = useAppSelector((state) => state.species.currentPage);
   const species = useAppSelector((state) => state.species.list);
   const status = useAppSelector((state) => state.species.status);
+  const totalPages = useAppSelector((state) =>
+    Math.ceil(state.species.count / 10)
+  );
 
   useEffect(() => {
-    dispatch(fetchAllSpecies());
-  }, []);
+    dispatch(fetchAllSpecies(String(currentPage)));
+  }, [currentPage, dispatch]);
 
-  //Позже добавлю пагинацию
+  const handlePageChange = (page: number) => {
+    dispatch(setPage(page));
+  };
 
   return (
     <div className={styles.pageWrapper}>
@@ -32,10 +38,18 @@ const SpeciesPage = () => {
           visible={true}
         />
       )}
-      {status === "completed" &&
-        species?.map((specie: SpecieType) => (
-          <SpecieCard {...specie} key={specie.name} />
-        ))}
+      {status === "completed" && (
+        <>
+          {species?.map((specie: SpecieType) => (
+            <EntityCard entity={specie} basePath="planets" key={specie.name} />
+          ))}
+          <Pagination
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        </>
+      )}
     </div>
   );
 };

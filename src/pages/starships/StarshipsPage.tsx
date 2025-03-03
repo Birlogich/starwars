@@ -4,20 +4,29 @@ import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 
 import styles from "../commonStyles/pageWrapper.module.scss";
-import { fetchAllStarships } from "../../features/Starship/starshipsSlice";
-import StarshipCard from "../../components/ui/starship/StarshipCard";
+import {
+  fetchAllStarships,
+  setPage,
+} from "../../features/Starship/starshipsSlice";
+import Pagination from "../../components/ui/pagination/Pagination";
+import EntityCard from "../../components/ui/entityCard/EntityCard";
 
 const StarshipsPage = () => {
   const dispatch = useAppDispatch();
-
+  const currentPage = useAppSelector((state) => state.starships.currentPage);
   const starships = useAppSelector((state) => state.starships.list);
   const status = useAppSelector((state) => state.starships.status);
+  const totalPages = useAppSelector((state) =>
+    Math.ceil(state.starships.count / 10)
+  );
 
   useEffect(() => {
-    dispatch(fetchAllStarships());
-  }, []);
+    dispatch(fetchAllStarships(String(currentPage)));
+  }, [currentPage, dispatch]);
 
-  //Позже добавлю пагинацию
+  const handlePageChange = (page: number) => {
+    dispatch(setPage(page));
+  };
 
   return (
     <div className={styles.pageWrapper}>
@@ -32,10 +41,22 @@ const StarshipsPage = () => {
           visible={true}
         />
       )}
-      {status === "completed" &&
-        starships?.map((starship: StarshipType) => (
-          <StarshipCard {...starship} key={starship.name} />
-        ))}
+      {status === "completed" && (
+        <>
+          {starships?.map((starship: StarshipType) => (
+            <EntityCard
+              entity={starship}
+              basePath="planets"
+              key={starship.name}
+            />
+          ))}
+          <Pagination
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            totalPages={totalPages}
+          />
+        </>
+      )}
     </div>
   );
 };

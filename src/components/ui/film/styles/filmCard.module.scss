@@ -1,5 +1,5 @@
 .card {
-   @apply flex items-center my-5 rounded-[10px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.4)] bg-[rgba(0,0,0,0.6)] w-[clamp(85%,_40vw,_589px)];
+   @apply flex items-center my-5 rounded-[10px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.4)] bg-[rgba(0,0,0,0.6)] w-[clamp(85%,_40vw,_589px)] p-2;
 
    &:hover {
       @apply bg-[rgba(0,0,0,0.8)] transition-colors duration-300;

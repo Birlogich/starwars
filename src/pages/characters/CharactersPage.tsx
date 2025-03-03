@@ -8,7 +8,8 @@ import {
 } from "../../features/Character/characterSlice";
 
 import styles from "../commonStyles/pageWrapper.module.scss";
-import CharacterCard from "../../components/ui/character/CharacterCard";
+import Pagination from "../../components/ui/pagination/Pagination";
+import EntityCard from "../../components/ui/entityCard/EntityCard";
 
 const CharactersPage = () => {
   const dispatch = useAppDispatch();
@@ -41,22 +42,20 @@ const CharactersPage = () => {
             visible={true}
           />
         )}
-        {status === "completed" &&
-          characters?.map((ch: CharacterType) => (
-            <CharacterCard {...ch} key={ch.name} />
-          ))}
-      </div>
-      <div className={styles.pagination}>
-        {[...Array(totalPages)].map((_, index) => (
-          <button
-            className={`${styles.paginationButton} ${currentPage === index + 1 ? styles.active : ""}`}
-            key={index}
-            onClick={() => handlePageChange(index + 1)}
-            disabled={currentPage === index + 1}
-          >
-            {index + 1}
-          </button>
-        ))}
+        {status === "completed" && (
+          <>
+            <div className={styles.listWrapper}>
+              {characters?.map((ch: CharacterType) => (
+                <EntityCard entity={ch} basePath="planets" key={ch.name} />
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              handlePageChange={handlePageChange}
+              totalPages={totalPages}
+            />
+          </>
+        )}
       </div>
     </div>
   );

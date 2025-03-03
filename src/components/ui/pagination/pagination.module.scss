@@ -1,18 +1,7 @@
-.pageWrapper {
-   @apply flex flex-col items-center justify-center w-full pb-8 mt-4 h-full;
-}
-
-.list {
-   @apply flex flex-col items-center justify-center w-full h-full mb-10 overflow-y-scroll;
-}
-
-.listWrapper {
-   @apply flex flex-col items-center justify-center w-full flex-auto;
-}
-
 .pagination {
    width: clamp(85%, 40vw, 589px);
    @apply flex justify-around;
+   margin-top: 2rem;
 }
 
 .paginationButton {
