@@ -1,7 +1,7 @@
 import { createFetchAllThunk, createFetchByIdThunk, createEntitySlice } from "../Entity/entitySlice";
 import { FilmType } from "../../types";
 
-export const fetchAllFilms = createFetchAllThunk<FilmType>("films", "");
+export const fetchAllFilms = createFetchAllThunk<FilmType>("films", "films");
 export const fetchFilmsById = createFetchByIdThunk<FilmType>("films", "films");
 
 const filmsSlice = createEntitySlice<FilmType>(
