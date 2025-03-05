@@ -27,7 +27,7 @@ const FilmsPage: React.FC = () => {
   const status = useAppSelector((state) => state.films.status);
 
   useEffect(() => {
-    dispatch(fetchAllFilms());
+    dispatch(fetchAllFilms(""));
   }, []);
 
   return (

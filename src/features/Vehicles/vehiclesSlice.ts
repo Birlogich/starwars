@@ -1,5 +1,5 @@
 import { createFetchAllThunk, createFetchByIdThunk, createEntitySlice } from "../Entity/entitySlice";
-import { SpecieType, VehicleType } from "../../types";
+import { VehicleType } from "../../types";
 
 
 export const fetchAllVehicles = createFetchAllThunk<VehicleType>("vehicles", "vehicles");
