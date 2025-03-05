@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 
 import styles from "../commonStyles/pageWrapper.module.scss";
-import { fetchAllPlanets, setPage } from "../../features/Plantet/planetsSlice";
+import { fetchAllPlanets, setPage } from "../../features/Planet/planetsSlice";
 import Pagination from "../../components/ui/pagination/Pagination";
 import EntityCard from "../../components/ui/entityCard/EntityCard";
 

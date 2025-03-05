@@ -3,18 +3,18 @@ import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
-import { fetchVehicle } from "../../features/Vehicles/vehiclesSlice";
+import { fetchVehicleById } from "../../features/Vehicles/vehiclesSlice";
 import EntityPage from "../../components/entityPage/EntityPage";
 
 const VehiclePage = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.vehicles.selectedStatus);
-  const vehicle = useAppSelector((state) => state.vehicles.selectedVehicle);
+  const vehicle = useAppSelector((state) => state.vehicles.selectedEntity);
   const error = useAppSelector((state) => state.vehicles.error);
 
   useEffect(() => {
-    id && dispatch(fetchVehicle(id));
+    id && dispatch(fetchVehicleById(id));
   }, [id]);
 
   return (

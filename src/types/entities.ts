@@ -1,4 +1,4 @@
-type LocalEntity = { name?: string; url: string, title?: string };
+export type LocalEntity = { name?: string; url: string, title?: string };
 
 
 export type BaseFilmType<T> = {

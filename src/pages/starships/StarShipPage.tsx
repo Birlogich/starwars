@@ -3,18 +3,18 @@ import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
-import { fetchStarship } from "../../features/Starship/starshipsSlice";
+import { fetchStarshipById } from "../../features/Starship/starshipsSlice";
 import EntityPage from "../../components/entityPage/EntityPage";
 
 const StarShipPage = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.starships.selectedStatus);
-  const starship = useAppSelector((state) => state.starships.selectedStarship);
+  const starship = useAppSelector((state) => state.starships.selectedEntity);
   const error = useAppSelector((state) => state.starships.error);
 
   useEffect(() => {
-    id && dispatch(fetchStarship(id));
+    id && dispatch(fetchStarshipById(id));
   }, [id]);
 
   return (

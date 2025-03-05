@@ -2,19 +2,19 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
-import { fetchFilm } from "../../features/Film/filmSlice";
+import { fetchFilmsById } from "../../features/Film/filmSlice";
 import { Circles } from "react-loader-spinner";
 import EntityPage from "../../components/entityPage/EntityPage";
 
 const FilmPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const film = useAppSelector((state) => state.films.selectedFilm);
+  const film = useAppSelector((state) => state.films.selectedEntity);
   const status = useAppSelector((state) => state.films.selectedStatus);
   const error = useAppSelector((state) => state.films.error);
 
   useEffect(() => {
-    id && dispatch(fetchFilm(id));
+    id && dispatch(fetchFilmsById(id));
   }, []);
 
   return (

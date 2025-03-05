@@ -3,18 +3,18 @@ import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
-import { fetchPlanet } from "../../features/Plantet/planetsSlice";
+import { fetchPlanetById } from "../../features/Planet/planetsSlice";
 import EntityPage from "../../components/entityPage/EntityPage";
 
 const PlanetPage = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.planets.selectedStatus);
-  const planet = useAppSelector((state) => state.planets.selectedPlanet);
+  const planet = useAppSelector((state) => state.planets.selectedEntity);
   const error = useAppSelector((state) => state.planets.error);
 
   useEffect(() => {
-    id && dispatch(fetchPlanet(id));
+    id && dispatch(fetchPlanetById(id));
   }, [id]);
 
   return (

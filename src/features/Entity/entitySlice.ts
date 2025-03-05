@@ -1,7 +1,21 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
 import { client } from "../../api/client";
+import {
+  CharacterType, FilmType, LocalCharacterType, LocalFilmType,
+  LocalPlanetType, LocalSpecieType, LocalStarshipType, LocalVehicleType,
+  PlanetType, SpecieType, StarshipType, VehicleType
+} from "../../types";
 
 type Status = "idle" | "loading" | "completed" | "error";
+
+
+type Entities =
+  | FilmType | LocalFilmType
+  | CharacterType | LocalCharacterType
+  | PlanetType | LocalPlanetType
+  | SpecieType | LocalSpecieType
+  | StarshipType | LocalStarshipType
+  | VehicleType | LocalVehicleType;
 
 interface EntityState<T> {
   status: Status;
@@ -13,23 +27,30 @@ interface EntityState<T> {
   error: string | null;
 }
 
-// Функция для создания асинхронного экшена для получения списка
-export const createFetchAllThunk = <T>(entityName: string, endpoint: string) =>
+
+export const createFetchAllThunk = <T extends Entities>(entityName: string, endpoint: string) =>
   createAsyncThunk<{ count: number; results: T[] }, string>(
     `@@${entityName}/fetchAll`,
     async (page: string) => {
-      const data = await client<{ count: number; results: T[] }>(
-        `/${endpoint}/?page=${page}`
-      );
-      return {
+      let data;
+      if(entityName === 'films') {
+        data = await client<{ count: number; results: T[] }>(
+          `${endpoint}`
+        );
+      } else {
+        data = await client<{ count: number; results: T[] }>(
+          `${endpoint}/?page=${page}`
+        );
+      }
+        return {
         count: data?.count ?? 0,
         results: data?.results ?? [],
       };
     }
   );
 
-// Функция для создания асинхронного экшена для получения конкретного элемента
-export const createFetchByIdThunk = <T>(entityName: string, endpoint: string) =>
+
+export const createFetchByIdThunk = <T extends Entities>(entityName: string, endpoint: string) =>
   createAsyncThunk<T | null, string, { rejectValue: string }>(
     `@@${entityName}/fetchById`,
     async (id: string, { rejectWithValue }) => {
@@ -43,8 +64,8 @@ export const createFetchByIdThunk = <T>(entityName: string, endpoint: string) =>
     }
   );
 
-// Функция для создания слайса
-export const createEntitySlice = <T>(
+
+export const createEntitySlice = <T extends Entities>(
   entityName: string,
   fetchAllThunk: ReturnType<typeof createFetchAllThunk<T>>,
   fetchByIdThunk: ReturnType<typeof createFetchByIdThunk<T>>
@@ -77,10 +98,9 @@ export const createEntitySlice = <T>(
         })
         .addCase(fetchAllThunk.fulfilled, (state, action) => {
           state.status = "completed";
-          state.list = action.payload.results;
+          state.list = action.payload.results as Draft<T>[];
           state.count = action.payload.count;
         })
-
         .addCase(fetchByIdThunk.pending, (state) => {
           state.selectedStatus = "loading";
         })
@@ -90,7 +110,7 @@ export const createEntitySlice = <T>(
         })
         .addCase(fetchByIdThunk.fulfilled, (state, action) => {
           state.selectedStatus = "completed";
-          state.selectedEntity = action.payload;
+          state.selectedEntity = action.payload as Draft<T> | null;
         });
     },
   });

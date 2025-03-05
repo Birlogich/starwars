@@ -3,18 +3,18 @@ import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
-import { fetchSpecie } from "../../features/Species/speciesSlice";
+import { fetchSpecieById } from "../../features/Species/speciesSlice";
 import EntityPage from "../../components/entityPage/EntityPage";
 
 const SpeciePage = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.species.selectedStatus);
-  const specie = useAppSelector((state) => state.species.selectedSpecie);
+  const specie = useAppSelector((state) => state.species.selectedEntity);
   const error = useAppSelector((state) => state.species.error);
 
   useEffect(() => {
-    id && dispatch(fetchSpecie(id));
+    id && dispatch(fetchSpecieById(id));
   }, [id]);
 
   return (

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
-import { fetchCharacter } from "../../features/Character/characterSlice";
+import { fetchCharacterById } from "../../features/Character/characterSlice";
 import { Circles } from "react-loader-spinner";
 import EntityPage from "../../components/entityPage/EntityPage";
 
@@ -10,13 +10,11 @@ const CharacterPage = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.characters.selectedStatus);
-  const character = useAppSelector(
-    (state) => state.characters.selectedCharacter
-  );
+  const character = useAppSelector((state) => state.characters.selectedEntity);
   const error = useAppSelector((state) => state.characters.error);
 
   useEffect(() => {
-    id && dispatch(fetchCharacter(id));
+    id && dispatch(fetchCharacterById(id));
   }, [id]);
 
   return (
