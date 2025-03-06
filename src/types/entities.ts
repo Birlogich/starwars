@@ -1,3 +1,11 @@
+export type Entities =
+  | FilmType | LocalFilmType
+  | CharacterType | LocalCharacterType
+  | PlanetType | LocalPlanetType
+  | SpecieType | LocalSpecieType
+  | StarshipType | LocalStarshipType
+  | VehicleType | LocalVehicleType;
+
 export type LocalEntity = { name?: string; url: string, title?: string };
 
 

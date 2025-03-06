@@ -4,7 +4,7 @@ import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 import { fetchStarshipById } from "../../features/Starship/starshipsSlice";
-import EntityPage from "../../components/entityPage/EntityPage";
+import EntityPage from "../../components/entityPageComponent/EntityPageComponent";
 
 const StarShipPage = () => {
   const { id } = useParams<{ id: string }>();

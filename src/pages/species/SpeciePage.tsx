@@ -4,7 +4,7 @@ import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 import { fetchSpecieById } from "../../features/Species/speciesSlice";
-import EntityPage from "../../components/entityPage/EntityPage";
+import EntityPage from "../../components/entityPageComponent/EntityPageComponent";
 
 const SpeciePage = () => {
   const { id } = useParams<{ id: string }>();

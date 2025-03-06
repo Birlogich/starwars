@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "./entityPage.module.scss";
+import styles from "./entityPageComponent.module.scss";
 
 interface EntityProps<T> {
   entity: T | null;

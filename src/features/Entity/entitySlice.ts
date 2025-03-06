@@ -1,21 +1,10 @@
 import { createAsyncThunk, createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
 import { client } from "../../api/client";
-import {
-  CharacterType, FilmType, LocalCharacterType, LocalFilmType,
-  LocalPlanetType, LocalSpecieType, LocalStarshipType, LocalVehicleType,
-  PlanetType, SpecieType, StarshipType, VehicleType
-} from "../../types";
+import { Entities } from "../../types";
 
 type Status = "idle" | "loading" | "completed" | "error";
 
 
-type Entities =
-  | FilmType | LocalFilmType
-  | CharacterType | LocalCharacterType
-  | PlanetType | LocalPlanetType
-  | SpecieType | LocalSpecieType
-  | StarshipType | LocalStarshipType
-  | VehicleType | LocalVehicleType;
 
 interface EntityState<T> {
   status: Status;

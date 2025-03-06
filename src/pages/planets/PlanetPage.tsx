@@ -4,7 +4,7 @@ import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { Circles } from "react-loader-spinner";
 import { fetchPlanetById } from "../../features/Planet/planetsSlice";
-import EntityPage from "../../components/entityPage/EntityPage";
+import EntityPage from "../../components/entityPageComponent/EntityPageComponent";
 
 const PlanetPage = () => {
   const { id } = useParams<{ id: string }>();

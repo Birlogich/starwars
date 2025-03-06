@@ -1,57 +1,13 @@
-import { useEffect } from "react";
-import { SpecieType } from "../../types/index";
-import { useAppDispatch, useAppSelector } from "../../redux-hooks";
-import { Circles } from "react-loader-spinner";
-
-import styles from "../commonStyles/pageWrapper.module.scss";
+import EntitiesPage from "../entity/EntityPage";
 import { fetchAllSpecies, setPage } from "../../features/Species/speciesSlice";
-import EntityCard from "../../components/ui/entityCard/EntityCard";
-import Pagination from "../../components/ui/pagination/Pagination";
 
-const SpeciesPage = () => {
-  const dispatch = useAppDispatch();
-  const currentPage = useAppSelector((state) => state.species.currentPage);
-  const species = useAppSelector((state) => state.species.list);
-  const status = useAppSelector((state) => state.species.status);
-  const totalPages = useAppSelector((state) =>
-    Math.ceil(state.species.count / 10)
-  );
+const PlanetsPage = () => (
+  <EntitiesPage
+    selector={(state) => state.species}
+    fetchAllAction={fetchAllSpecies}
+    setPageAction={setPage}
+    basePath="species"
+  />
+);
 
-  useEffect(() => {
-    dispatch(fetchAllSpecies(String(currentPage)));
-  }, [currentPage, dispatch]);
-
-  const handlePageChange = (page: number) => {
-    dispatch(setPage(page));
-  };
-
-  return (
-    <div className={styles.pageWrapper}>
-      {status === "loading" && (
-        <Circles
-          height="80"
-          width="80"
-          color="#4fa94d"
-          ariaLabel="circles-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
-      )}
-      {status === "completed" && (
-        <>
-          {species?.map((specie: SpecieType) => (
-            <EntityCard entity={specie} basePath="planets" key={specie.name} />
-          ))}
-          <Pagination
-            currentPage={currentPage}
-            handlePageChange={handlePageChange}
-            totalPages={totalPages}
-          />
-        </>
-      )}
-    </div>
-  );
-};
-
-export default SpeciesPage;
+export default PlanetsPage;

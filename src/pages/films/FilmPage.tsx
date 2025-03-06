@@ -4,7 +4,7 @@ import styles from "../commonStyles/pageCard.module.scss";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 import { fetchFilmsById } from "../../features/Film/filmSlice";
 import { Circles } from "react-loader-spinner";
-import EntityPage from "../../components/entityPage/EntityPage";
+import EntityPage from "../../components/entityPageComponent/EntityPageComponent";
 
 const FilmPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
