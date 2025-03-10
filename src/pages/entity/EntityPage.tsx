@@ -6,6 +6,7 @@ import { Circles } from "react-loader-spinner";
 import styles from "./entityPage.module.scss";
 import Pagination from "../../components/ui/pagination/Pagination";
 import EntityCard from "../../components/ui/entityCard/EntityCard";
+import SearchInput from "../../components/ui/searchInput/SearchInput";
 
 type EntitiesWithoutFilms = Exclude<Entities, FilmType | LocalFilmType>;
 
@@ -19,6 +20,7 @@ interface EntityListPageProps<T extends EntitiesWithoutFilms> {
     count: number;
   };
   basePath: string;
+  fetchOnSearch: (searchQuery: string) => any;
 }
 
 const EntityPage = <T extends EntitiesWithoutFilms>({
@@ -26,6 +28,7 @@ const EntityPage = <T extends EntitiesWithoutFilms>({
   setPageAction,
   selector,
   basePath,
+  fetchOnSearch,
 }: EntityListPageProps<T>) => {
   const dispatch = useAppDispatch();
   const { list, status, currentPage, count } = useAppSelector(selector);
@@ -39,8 +42,13 @@ const EntityPage = <T extends EntitiesWithoutFilms>({
     dispatch(setPageAction(page));
   };
 
+  const handleSearch = (searchQuery: string) => {
+    dispatch(fetchOnSearch(searchQuery));
+  };
+
   return (
     <div className={styles.pageWrapper}>
+      <SearchInput fetchOnSearch={handleSearch} />
       <div className={styles.list}>
         {status === "loading" && (
           <Circles height="80" width="80" color="#4fa94d" ariaLabel="loading" />

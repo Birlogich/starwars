@@ -1,16 +1,20 @@
-import EntitiesPage from "../entity/EntityPage";
+import EntityPage from "../entity/EntityPage";
 import {
   fetchAllCharacters,
+  fetchSearchCharacter,
   setPage,
 } from "../../features/Character/characterSlice";
 
-const CharactersPage = () => (
-  <EntitiesPage
-    selector={(state) => state.characters}
-    fetchAllAction={fetchAllCharacters}
-    setPageAction={setPage}
-    basePath="people"
-  />
-);
+const CharactersPage = () => {
+  return (
+    <EntityPage
+      selector={(state) => state.characters}
+      fetchAllAction={fetchAllCharacters}
+      setPageAction={setPage}
+      basePath="people"
+      fetchOnSearch={fetchSearchCharacter}
+    />
+  );
+};
 
 export default CharactersPage;

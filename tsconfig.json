@@ -2,7 +2,8 @@
   "files": [],
   "compilerOptions": {
     "typeRoots": ["node_modules/@types", "src/types"],
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "allowJs": true
   },
   "references": [
     { "path": "./tsconfig.app.json" },

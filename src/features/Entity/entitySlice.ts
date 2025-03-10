@@ -14,27 +14,32 @@ interface EntityState<T> {
   selectedEntity: T | null;
   selectedStatus: Status;
   error: string | null;
+  search: string;
 }
 
 
 export const createFetchAllThunk = <T extends Entities>(entityName: string, endpoint: string) =>
-  createAsyncThunk<{ count: number; results: T[] }, string>(
+  createAsyncThunk<{ count: number; results: T[] }, string, {rejectValue: string}>(
     `@@${entityName}/fetchAll`,
-    async (page: string) => {
-      let data;
-      if(entityName === 'films') {
-        data = await client<{ count: number; results: T[] }>(
-          `${endpoint}`
-        );
-      } else {
-        data = await client<{ count: number; results: T[] }>(
-          `${endpoint}/?page=${page}`
-        );
+    async ( page : string , { rejectWithValue }) => {
+      try {
+        let data;
+        if(entityName === 'films') {
+          data = await client<{ count: number; results: T[] }>(
+            `${endpoint}`
+          );
+        } else {
+          data = await client<{ count: number; results: T[] }>(
+            `${endpoint}/?page=${page}`
+          );
+        }
+          return {
+          count: data?.count ?? 0,
+          results: data?.results ?? [],
+        };
+      }catch {
+        return rejectWithValue("Failed to fetch entity data");
       }
-        return {
-        count: data?.count ?? 0,
-        results: data?.results ?? [],
-      };
     }
   );
 
@@ -53,11 +58,35 @@ export const createFetchByIdThunk = <T extends Entities>(entityName: string, end
     }
   );
 
+  export const createSearchFetchThunk = <T extends Entities>(entityName: string, endpoint: string) =>
+    createAsyncThunk<{ results: T[] }, string, { rejectValue: string }>(
+      `@@${entityName}/fetchBySearch`,
+      async (search: string, { rejectWithValue }) => {
+
+        let data;
+        try {
+          if (search) {
+            data = await client<{ results: T[] }>(`/${endpoint}/?search=${search}`);
+          } else {
+            data = await client<{ results: T[] }>(`/${endpoint}`);
+          }
+          if (!data?.results.length) {
+            return rejectWithValue("Entity not found");
+          }
+          return { results: data.results };
+        } catch {
+          return rejectWithValue("Failed to fetch entity data");
+        }
+      }
+    );
+  
+
 
 export const createEntitySlice = <T extends Entities>(
   entityName: string,
   fetchAllThunk: ReturnType<typeof createFetchAllThunk<T>>,
-  fetchByIdThunk: ReturnType<typeof createFetchByIdThunk<T>>
+  fetchByIdThunk: ReturnType<typeof createFetchByIdThunk<T>>,
+  fetchSearchThunk: ReturnType<typeof createSearchFetchThunk<T>>,
 ) => {
   const initialState: EntityState<T> = {
     status: "idle",
@@ -67,6 +96,7 @@ export const createEntitySlice = <T extends Entities>(
     selectedEntity: null,
     selectedStatus: "idle",
     error: null,
+    search: "",
   };
 
   const entitySlice = createSlice({
@@ -78,6 +108,9 @@ export const createEntitySlice = <T extends Entities>(
       },
     },
     extraReducers: (builder) => {
+
+      console.log(fetchSearchThunk);
+
       builder
         .addCase(fetchAllThunk.pending, (state) => {
           state.status = "loading";
@@ -100,7 +133,21 @@ export const createEntitySlice = <T extends Entities>(
         .addCase(fetchByIdThunk.fulfilled, (state, action) => {
           state.selectedStatus = "completed";
           state.selectedEntity = action.payload as Draft<T> | null;
-        });
+        })
+
+        //Вот оно undefined :
+
+/*         .addCase(fetchSearchThunk.pending, (state) => {
+          state.status = "loading";
+        })
+        .addCase(fetchSearchThunk.rejected, (state, action) => {
+          state.status = "error";
+          state.error = action.payload as string;
+        })
+        .addCase(fetchSearchThunk.fulfilled, (state, action) => {
+          state.status = "completed";
+          state.list = action.payload.results as Draft<T>[];
+        }); */
     },
   });
 
