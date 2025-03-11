@@ -1,5 +1,9 @@
-import EntitiesPage from "../entity/EntityPage";
-import { fetchAllPlanets, setPage } from "../../features/Planet/planetsSlice";
+import EntitiesPage from "../entity/EntitiesPage";
+import {
+  fetchAllPlanets,
+  fetchSearchPlanet,
+  setPage,
+} from "../../features/Planet/planetsSlice";
 
 const PlanetsPage = () => (
   <EntitiesPage
@@ -7,6 +11,7 @@ const PlanetsPage = () => (
     fetchAllAction={fetchAllPlanets}
     setPageAction={setPage}
     basePath="planets"
+    fetchOnSearch={fetchSearchPlanet}
   />
 );
 

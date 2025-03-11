@@ -1,6 +1,7 @@
-import EntitiesPage from "../entity/EntityPage";
+import EntitiesPage from "../entity/EntitiesPage";
 import {
   fetchAllStarships,
+  fetchSearchStarship,
   setPage,
 } from "../../features/Starship/starshipsSlice";
 
@@ -10,6 +11,7 @@ const StarshipsPage = () => (
     fetchAllAction={fetchAllStarships}
     setPageAction={setPage}
     basePath="starships"
+    fetchOnSearch={fetchSearchStarship}
   />
 );
 

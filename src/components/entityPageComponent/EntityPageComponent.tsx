@@ -7,7 +7,11 @@ interface EntityProps<T> {
   fields: { label: string; key: keyof T; isLink?: boolean }[];
 }
 
-const EntityPage = <T,>({ entity, titleKey, fields }: EntityProps<T>) => {
+const EntityPageComponent = <T,>({
+  entity,
+  titleKey,
+  fields,
+}: EntityProps<T>) => {
   if (!entity) return null;
 
   return (
@@ -47,4 +51,4 @@ const EntityPage = <T,>({ entity, titleKey, fields }: EntityProps<T>) => {
   );
 };
 
-export default EntityPage;
+export default EntityPageComponent;

@@ -7,7 +7,8 @@ export const fetchFilmsById = createFetchByIdThunk<FilmType>("films", "films");
 const filmsSlice = createEntitySlice<FilmType>(
   "characters",
   fetchAllFilms,
-  fetchFilmsById
+  fetchFilmsById,
+  null
 );
 
 export const { setPage } = filmsSlice.actions;

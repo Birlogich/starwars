@@ -15,7 +15,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, style }) => {
   return (
     <div className="wrapper" style={style}>
       <div className="container">
-        {pathname === "" ? (
+        {pathname === "" ? ( //Boolean условие не срабатывает. Поэтому сделал на равество с ""
           ""
         ) : (
           <IoArrowBackSharp
@@ -26,12 +26,12 @@ const PageWrapper: React.FC<PageWrapperProps> = ({ children, style }) => {
           />
         )}
         <div className={styles.top}>
-          <div></div>
+          <hr />
           <NavLink to="/">
             <Logo />
           </NavLink>
           <p>{pathname === "" ? "DISCOVERY" : pathname.toLocaleUpperCase()}</p>
-          <div></div>
+          <hr />
         </div>
         {children}
       </div>

@@ -1,6 +1,7 @@
-import EntitiesPage from "../entity/EntityPage";
+import EntitiesPage from "../entity/EntitiesPage";
 import {
   fetchAllVehicles,
+  fetchSearchVehicle,
   setPage,
 } from "../../features/Vehicles/vehiclesSlice";
 
@@ -10,6 +11,7 @@ const VehiclesPage = () => (
     fetchAllAction={fetchAllVehicles}
     setPageAction={setPage}
     basePath="vehicles"
+    fetchOnSearch={fetchSearchVehicle}
   />
 );
 

@@ -1,4 +1,4 @@
-import EntityPage from "../entity/EntityPage";
+import EntityPage from "../entity/EntitiesPage";
 import {
   fetchAllCharacters,
   fetchSearchCharacter,
