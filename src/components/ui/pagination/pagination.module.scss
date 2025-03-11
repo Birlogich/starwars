@@ -2,6 +2,7 @@
    width: clamp(85%, 40vw, 589px);
    @apply flex justify-center;
    margin-top: 2rem;
+   flex-wrap: wrap;
 }
 
 .paginationButton {
