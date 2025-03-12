@@ -1,18 +1,21 @@
 import {  LocalStarshipType, StarshipType } from "../../types";
+import { mapResources } from "./mapCharacterData";
 
 export const mapCharacterData = (starship: StarshipType): LocalStarshipType => {
-   if (!starship) return starship;
- 
-   const mapResources = (urls: string[], type: string, key: "name" | "title") =>
-     urls.map((url) => {
-       const id = url.split("/").filter(Boolean).pop();
-       return { [key]: "", url: `/${type}/${id}` } as { [K in typeof key]: string } & { url: string };
-     });
- 
-   return {
-     ...starship,
-     films: mapResources(starship.films, "films", "title"),
-     pilots: mapResources(starship.pilots, "pilots", "name"),
-   };
+  if (!starship) return starship;
+
+  return {
+    ...starship,
+    films: mapResources(starship.films, "films"),
+    residents: mapResources(starship.residents, "characters"),
+    starships: mapResources(starship.starships, "starships"), 
+    species: mapResources(starship.species, "starships"), 
+    vehicles: mapResources(starship.vehicles, "vehicles"),
+    characters: mapResources(starship.characters, "characters"), 
+    planets: mapResources(starship.starships, "starships"),
+    pilots: mapResources(starship.pilots, "pilots"),
+    people: mapResources(starship.people, "people"),
+    homeworld: starship.homeworld ? { name: "", url: `/starships/${starship.homeworld.split("/").filter(Boolean).pop()}` } : undefined,
+  };
  };
  

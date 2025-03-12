@@ -1,18 +1,21 @@
 import {  LocalVehicleType, VehicleType } from "../../types";
+import { mapResources } from "./mapCharacterData";
 
 export const mapCharacterData = (vehicle: VehicleType): LocalVehicleType => {
    if (!vehicle) return vehicle;
- 
-   const mapResources = (urls: string[], type: string, key: "name" | "title") =>
-     urls.map((url) => {
-       const id = url.split("/").filter(Boolean).pop();
-       return { [key]: "", url: `/${type}/${id}` } as { [K in typeof key]: string } & { url: string };
-     });
- 
-   return {
-     ...vehicle,
-     films: mapResources(vehicle.films, "films", "title"),
-     pilots: mapResources(vehicle.pilots, "pilots", "name"),
-   };
+
+  return {
+    ...vehicle,
+    films: mapResources(vehicle.films, "films"),
+    residents: mapResources(vehicle.residents, "characters"),
+    starships: mapResources(vehicle.vehicles, "vehicles"), 
+    species: mapResources(vehicle.species, "vehicles"), 
+    vehicles: mapResources(vehicle.vehicles, "vehicles"),
+    characters: mapResources(vehicle.characters, "characters"), 
+    planets: mapResources(vehicle.vehicles, "vehicles"),
+    pilots: mapResources(vehicle.pilots, "pilots"),
+    people: mapResources(vehicle.people, "people"),
+    homeworld: vehicle.homeworld ? { name: "", url: `/vehicles/${vehicle.homeworld.split("/").filter(Boolean).pop()}` } : undefined,
+  };
  };
  
