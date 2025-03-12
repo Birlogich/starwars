@@ -5,7 +5,7 @@ import EntityPage from "../entity/EntityPage";
 const FilmPage: React.FC = () => {
   return (
     <EntityPage<FilmType>
-      entityName="characters"
+      entityName="films"
       fetchByIdAction={fetchFilmsById}
       titleKey="title"
       fields={[

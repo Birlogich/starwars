@@ -5,7 +5,7 @@ import EntityPage from "../entity/EntityPage";
 const PlanetPage = () => {
   return (
     <EntityPage<PlanetType>
-      entityName="species"
+      entityName="planets"
       fetchByIdAction={fetchPlanetById}
       titleKey="name"
       fields={[

@@ -5,7 +5,7 @@ import EntityPage from "../entity/EntityPage";
 const VehiclePage = () => {
   return (
     <EntityPage<VehicleType>
-      entityName={"starships"}
+      entityName={"vehicles"}
       fetchByIdAction={fetchVehicleById}
       titleKey="name"
       fields={[

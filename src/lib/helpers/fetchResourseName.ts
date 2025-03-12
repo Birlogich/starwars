@@ -7,5 +7,5 @@ export const fetchResourceName = async (url: string) => {
 
   const data = await client<{ name?: string, title?: string }>(`${resourceType}/${id}`);
 
-  return { name: data?.name || "Unknown", title: data?.title || "Unknown", url: shortUrl };
+  return { name: data?.name || data?.title, url: shortUrl };
 };

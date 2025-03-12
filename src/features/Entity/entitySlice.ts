@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
 import { client } from "../../api/client";
-import { Entities } from "../../types";
+import { Entities, LocalEntity } from "../../types";
+import { fetchResourceName } from "../../lib/helpers/fetchResourseName";
 
 type Status = "idle" | "loading" | "completed" | "error";
 
@@ -44,6 +45,8 @@ export const createFetchAllThunk = <T extends Entities>(entityName: string, endp
   );
 
 
+  
+
   export const createFetchByIdThunk = <T extends Entities>(entityName: string, endpoint: string) =>
     createAsyncThunk<T | null, string, { rejectValue: string }>(
       `@@${entityName}/fetchById`,
@@ -53,12 +56,59 @@ export const createFetchAllThunk = <T extends Entities>(entityName: string, endp
           if (!entity) {
             return rejectWithValue("Entity not found");
           }
-          return entity;
+  
+          const fetchDetails = async (urls?: (string | LocalEntity)[]) => {
+            if (!Array.isArray(urls)) return [];
+            
+            const urlStrings = urls.map((item) =>
+              typeof item === "string" ? item : item.url
+            );
+  
+            return Promise.all(
+              urlStrings.map(async (url: string) => {
+                const { name, url: shortUrl } = await fetchResourceName(url);
+                return { name, url: shortUrl };
+              })
+            );
+          };
+  
+          const speciesData = await fetchDetails(entity.species);
+          const charactersData = await fetchDetails(entity.characters);
+          const filmsData = await fetchDetails(entity.films);
+          const planetsData = await fetchDetails(entity.planets);
+          const starshipsData = await fetchDetails(entity.starships);
+          const vehiclesData = await fetchDetails(entity.vehicles);
+          const residentsData = await fetchDetails(entity.residents);
+          const peopleData = await fetchDetails(entity.people);
+          const pilotsData = await fetchDetails(entity.pilots);
+          const homeworldData = entity.homeworld
+            ? await fetchResourceName(
+                typeof entity.homeworld === "string" ? entity.homeworld : entity.homeworld.url
+              ).then(({ name, url }) => ({
+                name,
+                url: `/planets/${url}`,
+              }))
+            : { name: "Unknown", url: "#" };
+  
+          return {
+            ...entity,
+            species: speciesData,
+            starships: starshipsData,
+            vehicles: vehiclesData,
+            films: filmsData,
+            homeworld: homeworldData,
+            characters: charactersData,
+            planets: planetsData,
+            residents: residentsData,
+            people: peopleData,
+            pilots: pilotsData
+          };
         } catch (error) {
           return rejectWithValue("Failed to fetch entity data");
         }
       }
     );
+  
 
   export const createSearchFetchThunk = <T extends Entities>(
     entityName: string,
@@ -92,7 +142,7 @@ export const createEntitySlice = <T extends Entities>(
   entityName: string,
   fetchAllThunk: ReturnType<typeof createFetchAllThunk<T>>,
   fetchByIdThunk: ReturnType<typeof createFetchByIdThunk<T>>,
-  fetchSearchThunk: ReturnType<typeof createSearchFetchThunk<T>> | null,
+  fetchSearchThunk?: ReturnType<typeof createSearchFetchThunk<T>> | null,
 ) => {
   const initialState: EntityState<T> = {
     status: "idle",

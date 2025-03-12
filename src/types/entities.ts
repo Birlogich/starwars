@@ -8,96 +8,120 @@ export type Entities =
 
 export type LocalEntity = { name?: string; url: string, title?: string };
 
+export type BaseEntity<T> = {
+   url: string;
+   created: string;
+   edited: string;
+   films?: T[];
+   species?: T[];
+   starships?: T[];
+   vehicles?: T[];
+   characters?: T[];
+   planets?: T[];
+   pilots?: T[];
+   residents?: T[];
+   homeworld?: T;
+   people?: T[];
+ };
 
-export type BaseFilmType<T> = {
+ export type FilmType = BaseEntity<string> & {
    title: string;
    episode_id: number;
    opening_crawl: string;
    director: string;
    producer: string;
    release_date: Date;
-   species: T[];
-   starships: T[];
-   vehicles: T[];
-   characters: T[];
-   planets: T[];
-   url: string;
-   created: string;
-   edited: string;
-};
-export type FilmType = BaseFilmType<string>;
-export type LocalFilmType = BaseFilmType<LocalEntity>;
+ };
+ 
+ export type LocalFilmType = BaseEntity<LocalEntity> & {
+   title: string;
+   episode_id: number;
+   opening_crawl: string;
+   director: string;
+   producer: string;
+   release_date: Date;
+ };
 
-export type BaseCharacterType<T> = {
+ export type CharacterType = BaseEntity<string> & {
    birth_year: string;
    eye_color: string;
-   films: T[];
    gender: string;
    hair_color: string;
    height: string;
-   homeworld: T;
    mass: string;
    name: string;
    skin_color: string;
-   created: string;
-   edited: string;
-   species: T[];
-   starships: T[];
-   url: string;
-   vehicles: T[];
-};
-export type CharacterType = BaseCharacterType<string>;
-export type LocalCharacterType = BaseCharacterType<LocalEntity>;
+ };
+ 
+ export type LocalCharacterType = BaseEntity<LocalEntity> & {
+   birth_year: string;
+   eye_color: string;
+   gender: string;
+   hair_color: string;
+   height: string;
+   mass: string;
+   name: string;
+   skin_color: string;
+ };
 
 
-export type BasePlanetType<T> = {
+
+ export type PlanetType = BaseEntity<string> & {
    climate: string;
-   created: string;
    diameter: string;
-   edited: string;
-   films: T[];
    gravity: string;
    name: string;
    orbital_period: string;
    population: string;
-   residents: T[];
    rotation_period: string;
    surface_water: string;
    terrain: string;
-   url: string;
-};
-export type PlanetType = BasePlanetType<string>;
-export type LocalPlanetType = BasePlanetType<LocalEntity>;
-
-export type BaseSpecieType<T> = {
-   average_height: string;
-   average_lifespan: string;
-   classification: string;
-   created: string;
-   designation: string;
-   edited: string;
-   eye_colors: string;
-   hair_colors: string;
-   homeworld: string;
-   language: string;
+ };
+ 
+ export type LocalPlanetType = BaseEntity<LocalEntity> & {
+   climate: string;
+   diameter: string;
+   gravity: string;
    name: string;
-   people: T[];
-   films: T[];
-   skin_colors: string;
-   url: string;
+   orbital_period: string;
+   population: string;
+   rotation_period: string;
+   surface_water: string;
+   terrain: string;
+ };
+
+export type SpecieType = BaseEntity<string> & {
+  average_height: string;
+  average_lifespan: string;
+  classification: string;
+  designation: string;
+  eye_colors: string;
+  hair_colors: string;
+  language: string;
+  name: string;
+  skin_colors: string;
 };
-export type SpecieType = BaseSpecieType<string>;
-export type LocalSpecieType = BaseSpecieType<LocalEntity>;
+
+export type LocalSpecieType = BaseEntity<LocalEntity> & {
+  average_height: string;
+  average_lifespan: string;
+  classification: string;
+  designation: string;
+  eye_colors: string;
+  hair_colors: string;
+  language: string;
+  name: string;
+  skin_colors: string;
+};
 
 
-export type BaseStarshipType<T> = {
+
+export type StarshipType = BaseEntity<string> & {
    MGLT: string;
    cargo_capacity: string;
    consumables: string;
    cost_in_credits: string;
-   created: string;
    crew: string;
-   edited: string;
    hyperdrive_rating: string;
    length: string;
    manufacturer: string;
@@ -105,13 +129,25 @@ export type BaseStarshipType<T> = {
    model: string;
    name: string;
    passengers: string;
-   films: T[];
-   pilots: T[];
    starship_class: string;
-   url: string;
-};
-export type StarshipType = BaseStarshipType<string>;
-export type LocalStarshipType = BaseStarshipType<LocalEntity>;
+ };
+ 
+ export type LocalStarshipType = BaseEntity<LocalEntity> & {
+   MGLT: string;
+   cargo_capacity: string;
+   consumables: string;
+   cost_in_credits: string;
+   crew: string;
+   hyperdrive_rating: string;
+   length: string;
+   manufacturer: string;
+   max_atmosphering_speed: string;
+   model: string;
+   name: string;
+   passengers: string;
+   starship_class: string;
+ };
+ 
 
 
 export type BaseVehicleType<T> = {
@@ -132,6 +168,31 @@ export type BaseVehicleType<T> = {
    url: string;
    vehicle_class: string;
 };
-
-export type VehicleType = BaseVehicleType<string>;
-export type LocalVehicleType = BaseVehicleType<LocalEntity>;
+export type VehicleType = BaseEntity<string> & {
+   cargo_capacity: string;
+   consumables: string;
+   cost_in_credits: string;
+   crew: string;
+   length: string;
+   manufacturer: string;
+   max_atmosphering_speed: string;
+   model: string;
+   name: string;
+   passengers: string;
+   vehicle_class: string;
+ };
+ 
+ export type LocalVehicleType = BaseEntity<LocalEntity> & {
+   cargo_capacity: string;
+   consumables: string;
+   cost_in_credits: string;
+   crew: string;
+   length: string;
+   manufacturer: string;
+   max_atmosphering_speed: string;
+   model: string;
+   name: string;
+   passengers: string;
+   vehicle_class: string;
+ };
+ 
