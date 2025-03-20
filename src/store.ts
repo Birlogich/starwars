@@ -15,11 +15,15 @@ const rootReducer = combineReducers({
    vehicles: vehiclesReducer
 })
 
-export const store = configureStore({
-   reducer: rootReducer,
-   devTools: true
-})
-
+export const createStore = (preloadedState = {}) =>
+   configureStore({
+     reducer: rootReducer,
+     devTools: true,
+     preloadedState, 
+   });
+ 
+export const store = createStore(); 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppStore = typeof store;
 export type AppDispatch = typeof store.dispatch;
 export type RootStateKeys = keyof RootState;

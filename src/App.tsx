@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { Routes, Route } from "react-router";
 import Layout from "./components/Layout";
 import Main from "./pages/main/Main";
 import PageWrapper from "./components/pageWrapper/PageWrapper";
@@ -30,155 +30,153 @@ import VehiclePage from "./pages/vehicles/VehiclePage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route
-            index
-            element={
-              <PageWrapper
-                children={<Main />}
-                style={{
-                  backgroundImage: `url(${bgMain})`, //мне не нравится как передаю стиль сюда, не придумал как через пропсы это сделать
-                }}
-              />
-            }
-          />
-          <Route
-            path="/films"
-            element={
-              <PageWrapper
-                children={<FilmsPage />}
-                style={{
-                  backgroundImage: `url(${bgFilms})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/films/:id"
-            element={
-              <PageWrapper
-                children={<FilmPage />}
-                style={{
-                  backgroundImage: `url(${bgFilm})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/people"
-            element={
-              <PageWrapper
-                children={<CharactersPage />}
-                style={{
-                  backgroundImage: `url(${bgForce})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/people/:id"
-            element={
-              <PageWrapper
-                children={<CharacterPage />}
-                style={{
-                  backgroundImage: `url(${bgTatooin})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/planets"
-            element={
-              <PageWrapper
-                children={<PlanetsPage />}
-                style={{
-                  backgroundImage: `url(${bgPlanets})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/planets/:id"
-            element={
-              <PageWrapper
-                children={<PlanetPage />}
-                style={{
-                  backgroundImage: `url(${bgTroopers})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/species"
-            element={
-              <PageWrapper
-                children={<SpeciesPage />}
-                style={{
-                  backgroundImage: `url(${bgForce})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/species/:id"
-            element={
-              <PageWrapper
-                children={<SpeciePage />}
-                style={{
-                  backgroundImage: `url(${bgTatooin})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/starships"
-            element={
-              <PageWrapper
-                children={<StarshipsPage />}
-                style={{
-                  backgroundImage: `url(${bgMaul})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/starships/:id"
-            element={
-              <PageWrapper
-                children={<StarShipPage />}
-                style={{
-                  backgroundImage: `url(${bgPlanets})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/vehicles"
-            element={
-              <PageWrapper
-                children={<VehiclesPage />}
-                style={{
-                  backgroundImage: `url(${bgVehicles})`,
-                }}
-              />
-            }
-          />
-          <Route
-            path="/vehicles/:id"
-            element={
-              <PageWrapper
-                children={<VehiclePage />}
-                style={{
-                  backgroundImage: `url(${bgStarships})`,
-                }}
-              />
-            }
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route
+          index
+          element={
+            <PageWrapper
+              children={<Main />}
+              style={{
+                backgroundImage: `url(${bgMain})`, //мне не нравится как передаю стиль сюда, не придумал как через пропсы это сделать
+              }}
+            />
+          }
+        />
+        <Route
+          path="/films"
+          element={
+            <PageWrapper
+              children={<FilmsPage />}
+              style={{
+                backgroundImage: `url(${bgFilms})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/films/:id"
+          element={
+            <PageWrapper
+              children={<FilmPage />}
+              style={{
+                backgroundImage: `url(${bgFilm})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/people"
+          element={
+            <PageWrapper
+              children={<CharactersPage />}
+              style={{
+                backgroundImage: `url(${bgForce})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/people/:id"
+          element={
+            <PageWrapper
+              children={<CharacterPage />}
+              style={{
+                backgroundImage: `url(${bgTatooin})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/planets"
+          element={
+            <PageWrapper
+              children={<PlanetsPage />}
+              style={{
+                backgroundImage: `url(${bgPlanets})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/planets/:id"
+          element={
+            <PageWrapper
+              children={<PlanetPage />}
+              style={{
+                backgroundImage: `url(${bgTroopers})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/species"
+          element={
+            <PageWrapper
+              children={<SpeciesPage />}
+              style={{
+                backgroundImage: `url(${bgForce})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/species/:id"
+          element={
+            <PageWrapper
+              children={<SpeciePage />}
+              style={{
+                backgroundImage: `url(${bgTatooin})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/starships"
+          element={
+            <PageWrapper
+              children={<StarshipsPage />}
+              style={{
+                backgroundImage: `url(${bgMaul})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/starships/:id"
+          element={
+            <PageWrapper
+              children={<StarShipPage />}
+              style={{
+                backgroundImage: `url(${bgPlanets})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/vehicles"
+          element={
+            <PageWrapper
+              children={<VehiclesPage />}
+              style={{
+                backgroundImage: `url(${bgVehicles})`,
+              }}
+            />
+          }
+        />
+        <Route
+          path="/vehicles/:id"
+          element={
+            <PageWrapper
+              children={<VehiclePage />}
+              style={{
+                backgroundImage: `url(${bgStarships})`,
+              }}
+            />
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 

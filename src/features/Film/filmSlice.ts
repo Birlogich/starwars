@@ -5,7 +5,7 @@ export const fetchAllFilms = createFetchAllThunk<FilmType>("films", "films");
 export const fetchFilmsById = createFetchByIdThunk<FilmType>("films", "films");
 
 const filmsSlice = createEntitySlice<FilmType>(
-  "characters",
+  "films",
   fetchAllFilms,
   fetchFilmsById,
   null

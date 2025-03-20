@@ -3,7 +3,8 @@
   "compilerOptions": {
     "typeRoots": ["node_modules/@types", "src/types"],
     "baseUrl": "./src",
-    "allowJs": true
+    "allowJs": true,
+    "types": ["vitest"]
   },
   "references": [
     { "path": "./tsconfig.app.json" },

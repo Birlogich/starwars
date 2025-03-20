@@ -23,7 +23,7 @@ interface EntityListPageProps<T extends EntitiesWithoutFilms> {
   fetchOnSearch: (searchQuery: string) => any;
 }
 
-const EntityPage = <T extends EntitiesWithoutFilms>({
+const EntitiesPage = <T extends EntitiesWithoutFilms>({
   fetchAllAction,
   setPageAction,
   selector,
@@ -72,4 +72,4 @@ const EntityPage = <T extends EntitiesWithoutFilms>({
   );
 };
 
-export default EntityPage;
+export default EntitiesPage;
