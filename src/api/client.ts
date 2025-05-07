@@ -1,7 +1,7 @@
 export const client = async <T> 
 (endPoint: string)
 : Promise<T | undefined> => {
-  const API = `https://swapi.dev/api/${endPoint}`;
+  const API = `https://www.swapi.tech/api/${endPoint}`;
 
   try {
     const response = await fetch(API, {
